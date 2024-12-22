@@ -48,3 +48,8 @@ func StringSliceToIntSlice(stringSlice []string) []int {
 	}
 	return intSlice
 }
+
+func RemoveElementFromSliceByIndex[T any](slice []T, s int) []T {
+	x := append(slice[:s], slice[s+1:]...)
+	return x
+}

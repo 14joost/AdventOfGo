@@ -14,10 +14,10 @@ func main() {
 	var test bool
 	var err error
 	if len(os.Args) < 4 {
-		fmt.Println("No sufficient arguments provided. Defaulting to day 1, puzzle 1 and test input")
-		day = 1
-		part = 1
+		day = 2
+		part = 2
 		test = true
+		fmt.Printf("No sufficient arguments provided. Defaulting to day %d, puzzle %d and test input = %t\n", day, part, test)
 	} else {
 		day, err = strconv.Atoi(os.Args[1])
 		if err != nil {
