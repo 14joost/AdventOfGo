@@ -1,21 +1,58 @@
 package main
 
 import (
+	"AdventOfGo/challenges"
+	"AdventOfGo/utils"
 	"fmt"
+	"log"
+	"os"
+	"strconv"
 )
 
-//TIP <p>To run your code, right-click the code and select <b>Run</b>.</p> <p>Alternatively, click
-// the <icon src="AllIcons.Actions.Execute"/> icon in the gutter and select the <b>Run</b> menu item from here.</p>
-
 func main() {
-	//TIP <p>Press <shortcut actionId="ShowIntentionActions"/> when your caret is at the underlined text
-	// to see how GoLand suggests fixing the warning.</p><p>Alternatively, if available, click the lightbulb to view possible fixes.</p>
-	s := "gopher"
-	fmt.Println("Hello and welcome, %s!", s)
+	var day, part int
+	var test bool
+	var err error
+	if len(os.Args) < 4 {
+		day = 2
+		part = 2
+		test = true
+		fmt.Printf("No sufficient arguments provided. Defaulting to day %d, puzzle %d and test input = %t\n", day, part, test)
+	} else {
+		day, err = strconv.Atoi(os.Args[1])
+		if err != nil {
+			log.Fatal(err)
+		}
+		part, err = strconv.Atoi(os.Args[2])
+		if err != nil {
+			log.Fatal(err)
+		}
+		test, err = strconv.ParseBool(os.Args[3])
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+	fmt.Printf("Solving challenge %d for day %d! Test input = %t\n", part, day, test)
 
-	for i := 1; i <= 5; i++ {
-		//TIP <p>To start your debugging session, right-click your code in the editor and select the Debug option.</p> <p>We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-		// for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.</p>
-		fmt.Println("i =", 100/i)
+	challengePicker(day, part, test)
+}
+
+func challengePicker(day int, part int, test bool) {
+
+	switch day {
+	case 1:
+		if part == 1 {
+			challenges.Day1Part1(utils.FileToStringSlice(day, test))
+		} else if part == 2 {
+			challenges.Day1Part2(utils.FileToStringSlice(day, test))
+		}
+	case 2:
+		if part == 1 {
+			challenges.Day2Part1(utils.FileToStringSlice(day, test))
+		} else if part == 2 {
+			challenges.Day2Part2(utils.FileToStringSlice(day, test))
+		}
+	default:
+		fmt.Println("No challenges for that day")
 	}
 }
