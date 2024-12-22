@@ -2,7 +2,7 @@ package main
 
 import (
 	"AdventOfGo/challenges"
-	"bufio"
+	"AdventOfGo/utils"
 	"fmt"
 	"log"
 	"os"
@@ -14,31 +14,24 @@ func init() {
 	// It is used to initialize the program
 }
 func main() {
-	day, err := strconv.Atoi(os.Args[1])
-	if err != nil {
-		log.Fatal(err)
-	}
-	test, err := strconv.ParseBool(os.Args[2])
-	if err != nil {
-		log.Fatal(err)
+	var day int
+	var test bool
+	var err error
+	if len(os.Args) < 2 {
+		fmt.Println("No arguments provided. Defaulting to day 1 and test input")
+		day = 1
+		test = true
+	} else {
+		day, err = strconv.Atoi(os.Args[1])
+		if err != nil {
+			log.Fatal(err)
+		}
+		test, err = strconv.ParseBool(os.Args[2])
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
 	fmt.Printf("Solving challenge for day %d! Test input = %t\n", day, test)
 
-	inputFile := fmt.Sprintf("input_day%d", day)
-	inputList := make([]string, 0)
-	var testStr string
-	if test {
-		testStr = "_test"
-	}
-	file, err := os.Open(fmt.Sprintf("inputFiles/%s%s.txt", inputFile, testStr))
-	scanner := bufio.NewScanner(file)
-	if err != nil {
-		log.Fatal(err)
-	}
-	for scanner.Scan() {
-		text := scanner.Text()
-		inputList = append(inputList, text)
-		//fmt.Println(text)
-	}
-	challenges.Day1(inputList)
+	challenges.Day1(utils.FileToStringSlice(day, test))
 }
