@@ -52,6 +52,13 @@ func challengePicker(day int, part int, test bool) {
 		} else if part == 2 {
 			challenges.Day2Part2(utils.FileToStringSlice(day, test))
 		}
+	case 3:
+		if part == 1 {
+			challenges.Day3Part1(utils.FileToStringSlice(day, test))
+		} else if part == 2 {
+			challenges.Day3Part2(utils.FileToStringSlice(day, test))
+		}
+
 	default:
 		fmt.Println("No challenges for that day")
 	}

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"regexp"
 	"strconv"
 	"strings"
 )
@@ -30,14 +31,15 @@ func FileToStringSlice(day int, test bool) []string {
 	return inputList
 }
 
-func SplitByWhitespace(inputString string) []string {
-	var stringSliceNoWhitespace = make([]string, 0)
-	for _, s := range strings.Split(inputString, " ") {
-		if s != " " && s != "" {
-			stringSliceNoWhitespace = append(stringSliceNoWhitespace, s)
-		}
+func Split(inputString string, splitChar string) []string {
+	if splitChar == "" || splitChar == " " {
+		return SplitByWhitespace(inputString)
 	}
-	return stringSliceNoWhitespace
+	return strings.Split(inputString, splitChar)
+}
+
+func SplitByWhitespace(inputString string) []string {
+	return strings.Fields(inputString)
 }
 
 func StringSliceToIntSlice(stringSlice []string) []int {
@@ -52,4 +54,8 @@ func StringSliceToIntSlice(stringSlice []string) []int {
 func RemoveElementFromSliceByIndex[T any](slice []T, s int) []T {
 	x := append(slice[:s], slice[s+1:]...)
 	return x
+}
+
+func RegexFetcher(line string, regEx string) []string {
+	return regexp.MustCompile(regEx).FindAllString(line, -1)
 }
