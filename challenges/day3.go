@@ -58,32 +58,40 @@ func multiply(a int, b int) int {
 	return a * b
 }
 
-func trimDoDont(doSlice []int, dontSlice []int) []int {
-	doDontSlice := make([]int, 0)
-	doDontSlice = append(doDontSlice, 0)
-	doCounter, dontCounter := 1, 0
-	done, do := false, false
-	for !done {
-		if do {
-			if doCounter == len(doSlice) {
-				do = false
-			} else if doSlice[doCounter] > doDontSlice[len(doDontSlice)-1] && dontCounter < len(dontSlice) {
-				doDontSlice = append(doDontSlice, doSlice[doCounter])
-				doCounter++
-				do = false
+func trimDoDont(input1, input2 []int) []int {
+	var output []int
+	i, j := 0, 0 // Indices for input1 and input2
+	len1, len2 := len(input1), len(input2)
+	turn := 0  // 0 for input1's turn, 1 for input2's turn
+	prev := -1 // Initialize previous value
+
+	for {
+		if turn%2 == 0 { // Input1's turn
+			// Find the next element in input1 greater than 'prev'
+			for i < len1 && input1[i] <= prev {
+				i++
 			}
-		} else {
-			if dontCounter == len(dontSlice) {
-				do = true
-			} else if dontSlice[dontCounter] > doDontSlice[len(doDontSlice)-1] && doCounter < len(doSlice) {
-				doDontSlice = append(doDontSlice, dontSlice[dontCounter])
-				dontCounter++
-				do = true
+			if i >= len1 {
+				// Cannot pick from input1; stop the process
+				break
 			}
+			output = append(output, input1[i])
+			prev = input1[i]
+			i++
+		} else { // Input2's turn
+			// Find the next element in input2 greater than 'prev'
+			for j < len2 && input2[j] <= prev {
+				j++
+			}
+			if j >= len2 {
+				// Cannot pick from input2; stop the process
+				break
+			}
+			output = append(output, input2[j])
+			prev = input2[j]
+			j++
 		}
-		if doCounter >= len(doSlice) && dontCounter >= len(dontSlice) {
-			done = true
-		}
+		turn++
 	}
-	return doDontSlice
+	return output
 }
