@@ -59,3 +59,13 @@ func RemoveElementFromSliceByIndex[T any](slice []T, s int) []T {
 func RegexFetcher(line string, regEx string) []string {
 	return regexp.MustCompile(regEx).FindAllString(line, -1)
 }
+
+func SubstringIndexFetcher(line string, substring string) []int {
+	var indices []int
+	for i := 0; i < len(line); i++ {
+		if strings.HasPrefix(line[i:], substring) {
+			indices = append(indices, i)
+		}
+	}
+	return indices
+}
