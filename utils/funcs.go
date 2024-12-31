@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"regexp"
+	"slices"
 	"strconv"
 	"strings"
 )
@@ -32,14 +33,15 @@ func FileToStringSlice(day int, test bool) []string {
 }
 
 func Split(inputString string, splitChar string) []string {
-	if splitChar == "" || splitChar == " " {
-		return SplitByWhitespace(inputString)
-	}
 	return strings.Split(inputString, splitChar)
 }
 
 func SplitByWhitespace(inputString string) []string {
 	return strings.Fields(inputString)
+}
+
+func SplitEachChar(inputString string) []string {
+	return strings.Split(inputString, "")
 }
 
 func StringSliceToIntSlice(stringSlice []string) []int {
@@ -68,4 +70,32 @@ func SubstringIndexFetcher(line string, substring string) []int {
 		}
 	}
 	return indices
+}
+
+func Print2dSlice(slice [][]string) {
+	for _, s := range slice {
+		fmt.Println(s)
+	}
+}
+
+func PrintSlice(slice []string) {
+	for _, s := range slice {
+		fmt.Println(s)
+	}
+}
+
+func PrintSliceAny[T any](slice []T) {
+	for _, s := range slice {
+		fmt.Println(s)
+	}
+}
+
+func RemoveDuplicates[T comparable](slice []T) []T {
+	filteredSlice := make([]T, 0)
+	for _, s := range slice {
+		if !slices.Contains(filteredSlice, s) {
+			filteredSlice = append(filteredSlice, s)
+		}
+	}
+	return filteredSlice
 }

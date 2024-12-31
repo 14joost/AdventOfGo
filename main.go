@@ -14,9 +14,9 @@ func main() {
 	var test bool
 	var err error
 	if len(os.Args) < 4 {
-		day = 3
-		part = 2
-		test = false
+		day = 4
+		part = 1
+		test = true
 		fmt.Printf("No sufficient arguments provided. Defaulting to day %d, puzzle %d and test input = %t\n", day, part, test)
 	} else {
 		day, err = strconv.Atoi(os.Args[1])
@@ -57,6 +57,12 @@ func challengePicker(day int, part int, test bool) {
 			challenges.Day3Part1(utils.FileToStringSlice(day, test))
 		} else if part == 2 {
 			challenges.Day3Part2(utils.FileToStringSlice(day, test))
+		}
+	case 4:
+		if part == 1 {
+			challenges.Day4Part1(utils.FileToStringSlice(day, test))
+		} else if part == 2 {
+			challenges.Day4Part2(utils.FileToStringSlice(day, test))
 		}
 
 	default:
