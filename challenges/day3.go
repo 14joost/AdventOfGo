@@ -30,24 +30,37 @@ func Day3Part2(stringSlice []string) {
 	do := "do()"
 	dont := "don't()"
 
-	for _, line := range stringSlice {
-		//fmt.Printf("Line %d: %s\n", i, line)
-		doIndices := utils.SubstringIndexFetcher(line, do)
-		doIndices = append([]int{0}, doIndices...)
-		dontIndices := utils.SubstringIndexFetcher(line, dont)
-		fmt.Printf("Do indices: %d. \n", doIndices)
-		fmt.Printf("Don't indices: %d. \n", dontIndices)
-		doDontSlice := trimDoDont(doIndices, dontIndices)
-		fmt.Printf("DoDont slice: %d. \n", doDontSlice)
-		//var muls = utils.RegexFetcher(line, mulRegEx)
-		//fmt.Printf("All multiply matches: %s. \n", muls)
-		//
-		//for _, mul := range muls {
-		//	strippedMul := mul[4 : len(mul)-1]
-		//	fmt.Printf("Mul: %s\n", strippedMul)
-		//	values := utils.StringSliceToIntSlice(utils.Split(strippedMul, ","))
-		//	score += multiply(values[0], values[1])
-		//}
+	line := fmt.Sprintf("%v", stringSlice)
+	fmt.Printf("String slice as string: %s\n", line)
+
+	//fmt.Printf("Line %d: %s\n", i, line)
+	doIndices := utils.SubstringIndexFetcher(line, do)
+	doIndices = append([]int{0}, doIndices...)
+	dontIndices := utils.SubstringIndexFetcher(line, dont)
+	fmt.Printf("Do indices: %d. \n", doIndices)
+	fmt.Printf("Don't indices: %d. \n", dontIndices)
+	doDontSlice := trimDoDont(doIndices, dontIndices)
+	fmt.Printf("DoDont slice: %d. \n", doDontSlice)
+	oddSlice := len(doDontSlice)%2 == 1
+	filteredString := ""
+	for i := 0; i < len(doDontSlice)-1; i += 2 {
+		fmt.Printf("Do index: %d, don't index: %d\n", doDontSlice[i], doDontSlice[i+1])
+		filteredString += line[doDontSlice[i]:doDontSlice[i+1]]
+	}
+	if oddSlice {
+		fmt.Printf("ODD: Do index: %d, don't index: %d\n", doDontSlice[len(doDontSlice)-1], -1)
+		filteredString += line[doDontSlice[len(doDontSlice)-1]:]
+	}
+
+	fmt.Printf("Filtered string: %s\n", filteredString)
+	var muls = utils.RegexFetcher(filteredString, mulRegEx)
+	fmt.Printf("All filtered multiply matches: %s. \n", muls)
+
+	for _, mul := range muls {
+		strippedMul := mul[4 : len(mul)-1]
+		fmt.Printf("Mul: %s\n", strippedMul)
+		values := utils.StringSliceToIntSlice(utils.Split(strippedMul, ","))
+		score += multiply(values[0], values[1])
 	}
 
 	fmt.Println("Score: ", score)
